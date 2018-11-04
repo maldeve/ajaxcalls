@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Calls-JSON API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+    <button id="button" class="btn btn-success btn-sm">Get GitHub Users</button>
+    <h3><b>Users</b></h3>
+    <div id="users"></div>
+
+    <script>
+        document.getElementById('button').addEventListener('click', () => {
+            // create an XHR object
+            let xhr = new XMLHttpRequest();
+            // define method and source/url
+            xhr.open('GET', 'https://api.github.com/users', true);
+            // load data
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    let usersDetails = JSON.parse(xhr.responseText);
+                    // output data to page
+                    let output = "";
+                    output += "<table class='table table-bordered table-striped'>"
+                    output += "<tr>"
+                    output += "<th>ID</th>" + "<th>Image</th>" + "<th>Username</th>"
+                    output += "</tr>"
+                    // loop through the users
+                    for (let i = 0; i < usersDetails.length; i++) {
+                        output += "<tr>"
+                        output += "<td>" + usersDetails[i].id + "</td>" + "<td>" + "<img src='" + usersDetails[i].avatar_url + "' width='70' height='70'>" + "</td>" + "<td>" + usersDetails[i].login + "</td>"
+                        output += "</tr>"
+                    }
+                    output += "</table>"
+                    document.getElementById('users').innerHTML = output;
+                }
+            }
+            xhr.send();
+        });
+    </script>
+</body>
+
+</html>

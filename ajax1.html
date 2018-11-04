@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Calls-Text File</title>
+</head>
+
+<body>
+    <button id="button">Get Text File</button><br>
+    <div id="text"></div>
+
+    <script>
+        // create event listener
+        let btn = document.getElementById('button');
+        btn.addEventListener('click', () => {
+            // create XHR object
+            let ourRequest = new XMLHttpRequest();
+
+            // call the url
+            ourRequest.open('GET', 'sample.txt');
+
+            // load the data with onload()
+            ourRequest.onload = () => {
+                if (ourRequest.status == 200) {
+                    let ourData = ourRequest.responseText;
+                    document.getElementById('text').innerHTML = ourData;
+                } else {
+                    document.getElementById('text').innerHTML = "Server Error! Try again later!";
+                }
+            }
+
+            // check for errors
+            ourRequest.onerror = () => {
+                console.log("Request error!");
+            }
+
+            // load data with oreadystate()
+            // ourRequest.onreadystatechange = () => {
+            //     if (ourRequest.readyState == 4 && ourRequest.status == 200) {
+            //         let ourData = ourRequest.responseText;
+            //         console.log(ourData);
+            //     }
+            // }
+
+            // send request
+            ourRequest.send();
+        });
+    </script>
+</body>
+
+</html>

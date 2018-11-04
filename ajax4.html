@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Calls-AJAX & PHP Forms</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+    <button id="button" class="btn btn-success btn-sm">Get PHP</button>
+    <hr>
+
+    <!-- GET -->
+    <h4>PHP GET FORM</h4>
+    <form method="GET" action="process.php">
+        <input type="text" name="name" placeholder="name">
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    </form>
+    <hr>
+    <h4>AJAX GET FORM</h4>
+    <form id="getForm">
+        <input type="text" name="name" id="name1" placeholder="name">
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    </form>
+    <hr>
+
+    <!-- POST -->
+    <h4>PHP POST FORM</h4>
+    <form method="POST" action="process.php">
+        <input type="text" name="name" placeholder="name">
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    </form>
+    <hr>
+    <h4>AJAX POST FORM</h4>
+    <form id="postForm">
+        <input type="text" name="name" id="name2" placeholder="name">
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    </form>
+    <hr>
+
+    <script>
+        // get using PHP Form
+        document.getElementById('button').addEventListener('click', getData);
+
+        // get using AJAX Form
+        document.getElementById('getForm').addEventListener('submit', getData);
+
+        // post using AJAX Form
+        document.getElementById('postForm').addEventListener('submit', postData);
+
+        // GET function
+        function getData(e) {
+            // prevent form submit from openning another page
+            e.preventDefault();
+            // get input value
+            let name = document.getElementById('name1').value;
+            // create an XHR object
+            let xhr = new XMLHttpRequest();
+            // define method and source/url
+            xhr.open('GET', 'process.php?name=' + name, true);
+            // load data
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    let usersDetails = xhr.responseText;
+                    // output data to page
+                    console.log(usersDetails);
+                }
+            }
+            // submit request
+            xhr.send();
+        }
+
+        // POST function
+        function postData(e) {
+            // prevent form submit from openning another page
+            e.preventDefault();
+            // get input value
+            let name = document.getElementById('name2').value;
+            // create params
+            let params = 'name=' + name;
+            // create an XHR object
+            let xhr = new XMLHttpRequest();
+            // define method and source/url
+            xhr.open('POST', 'process.php', true);
+            // set request header
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            // load data
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    let usersDetails = xhr.responseText;
+                    // output data to page
+                    console.log(usersDetails);
+                }
+            }
+            // submit request
+            xhr.send(params);
+        }
+
+    </script>
+</body>
+
+</html>
